@@ -1,6 +1,5 @@
 pipeline {
     agent any
-    
     environment {
         DOCKERHUB_CREDENTIALS = credentials('dockerhub-credentials')
         DOCKERHUB_USERNAME = 'ankito45'  // ← Replace with YOUR actual Docker Hub username
@@ -88,3 +87,5 @@ pipeline {
         failure {
             echo '❌ Pipeline failed! Check logs above.'
         }
+    }
+}
