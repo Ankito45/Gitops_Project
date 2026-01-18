@@ -2,9 +2,9 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: flask-app
-  namespace: flask
+  namespace: default
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: flask-app
@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: flask-app
-        image: ankit0017/flask-app:latest
+        image: ankito45/flask-app:latest  # ← This line will is updated by CI/CD pipeline by jenkins
         ports:
         - containerPort: 5000
         livenessProbe:
@@ -24,9 +24,3 @@ spec:
             port: 5000
           initialDelaySeconds: 10
           periodSeconds: 5
-        readinessProbe:
-          httpGet:
-            path: /health
-            port: 5000
-          initialDelaySeconds: 5
-          periodSeconds: 3
