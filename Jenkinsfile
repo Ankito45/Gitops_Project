@@ -2,27 +2,32 @@ pipeline {
     agent {
         kubernetes {
             cloud 'kubernetes'
-            yaml '''
+    yaml '''
 apiVersion: v1
 kind: Pod
 spec:
   containers:
   - name: docker
-    image: docker:24.0.7
-    command:
-    - cat
-    tty: true
+    image: docker:24.0.7-dind
+    securityContext:
+      privileged: true
+    env:
+    - name: DOCKER_TLS_CERTDIR
+      value: ""
     volumeMounts:
-    - name: docker-sock
-      mountPath: /var/run/docker.sock
+    - name: docker-graph
+      mountPath: /var/lib/docker
+    command:
+    - dockerd-entrypoint.sh
+    args:
+    - --host=unix:///var/run/docker.sock
 
   - name: jnlp
     image: jenkins/inbound-agent:latest
 
   volumes:
-  - name: docker-sock
-    hostPath:
-      path: /var/run/docker.sock
+  - name: docker-graph
+    emptyDir: {}
 '''
         }
     }
