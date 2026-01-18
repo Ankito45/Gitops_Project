@@ -1,6 +1,7 @@
 pipeline {
     agent {
         kubernetes {
+            cloud 'kubernetes'  // This MUST match the 'Name' field in Jenkins UI
             yaml '''
 apiVersion: v1
 kind: Pod
