@@ -8,7 +8,7 @@ kind: Pod
 spec:
   containers:
   - name: docker
-    image: docker:24.0.7-dind
+    image: docker:23-dind
     securityContext:
       privileged: true
     env:
