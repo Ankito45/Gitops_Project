@@ -7,7 +7,7 @@ pipeline {
         IMAGE_NAME = 'flask-app'
         IMAGE_TAG = "${BUILD_NUMBER}"
         GITHUB_CREDENTIALS = credentials('github-credentials')
-        CONFIG_REPO = 'https://github.com/YOUR_USERNAME/flask-k8s-config.git'
+        CONFIG_REPO = 'https://github.com/Ankito45/Gitops_Project.git'
     }
     
     stages {
