@@ -88,4 +88,7 @@ pipeline {
                 } catch (e) {
                     echo 
 
+               }
+}
+
 
