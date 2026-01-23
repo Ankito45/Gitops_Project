@@ -20,40 +20,34 @@ pipeline {
 
         stage('Docker Info (Debug)') {
             steps {
-                container('docker') {
-                    sh '''
-                        docker version
-                        docker info
-                    '''
-                }
+                sh '''
+                    docker version
+                    docker info
+                '''
             }
         }
 
         stage('Build Docker Image') {
             steps {
-                container('docker') {
-                    sh """
-                        docker build \
-                          -t ${DOCKERHUB_USERNAME}/${IMAGE_NAME}:${IMAGE_TAG} \
-                          -t ${DOCKERHUB_USERNAME}/${IMAGE_NAME}:latest \
-                          .
-                    """
-                }
+                sh """
+                    docker build \
+                      -t ${DOCKERHUB_USERNAME}/${IMAGE_NAME}:${IMAGE_TAG} \
+                      -t ${DOCKERHUB_USERNAME}/${IMAGE_NAME}:latest \
+                      .
+                """
             }
         }
 
         stage('Push Image to Docker Hub') {
             steps {
-                container('docker') {
-                    sh """
-                        echo \$DOCKERHUB_CREDENTIALS_PSW | docker login \
-                          -u \$DOCKERHUB_CREDENTIALS_USR \
-                          --password-stdin
+                sh """
+                    echo \$DOCKERHUB_CREDENTIALS_PSW | docker login \
+                      -u \$DOCKERHUB_CREDENTIALS_USR \
+                      --password-stdin
 
-                        docker push ${DOCKERHUB_USERNAME}/${IMAGE_NAME}:${IMAGE_TAG}
-                        docker push ${DOCKERHUB_USERNAME}/${IMAGE_NAME}:latest
-                    """
-                }
+                    docker push ${DOCKERHUB_USERNAME}/${IMAGE_NAME}:${IMAGE_TAG}
+                    docker push ${DOCKERHUB_USERNAME}/${IMAGE_NAME}:latest
+                """
             }
         }
 
@@ -80,15 +74,8 @@ pipeline {
 
     post {
         always {
-            script {
-                try {
-                    container('docker') {
-                        sh 'docker logout || true'
-                    }
-                } catch (e) {
-                    echo 
-                }
-	    }
-	}
+            sh 'docker logout || true'
+        }
     }
 }
+
