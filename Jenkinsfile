@@ -1,36 +1,5 @@
 pipeline {
-    agent {
-        kubernetes {
-            cloud 'kubernetes'
-    yaml '''
-apiVersion: v1
-kind: Pod
-spec:
-  containers:
-  - name: docker
-    image: docker:23-dind
-    securityContext:
-      privileged: true
-    env:
-    - name: DOCKER_TLS_CERTDIR
-      value: ""
-    volumeMounts:
-    - name: docker-graph
-      mountPath: /var/lib/docker
-    command:
-    - dockerd-entrypoint.sh
-    args:
-    - --host=unix:///var/run/docker.sock
-
-  - name: jnlp
-    image: jenkins/inbound-agent:latest
-
-  volumes:
-  - name: docker-graph
-    emptyDir: {}
-'''
-        }
-    }
+    agent any
 
     environment {
         DOCKERHUB_CREDENTIALS = credentials('dockerhub-credentials')
@@ -117,9 +86,6 @@ spec:
                         sh 'docker logout || true'
                     }
                 } catch (e) {
-                    echo "Docker container not available during cleanup"
-                }
-            }
-        }
-    }
-}
+                    echo 
+
+
