@@ -87,8 +87,8 @@ pipeline {
                     }
                 } catch (e) {
                     echo 
-
-               }
+                }
+	    }
+	}
+    }
 }
-
-
