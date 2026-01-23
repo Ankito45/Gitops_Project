@@ -18,15 +18,6 @@ pipeline {
             }
         }
 
-        stage('Docker Info (Debug)') {
-            steps {
-                sh '''
-                    docker version
-                    docker info
-                '''
-            }
-        }
-
         stage('Build Docker Image') {
             steps {
                 sh """
